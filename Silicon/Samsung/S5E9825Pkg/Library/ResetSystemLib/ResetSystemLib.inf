@@ -1,0 +1,34 @@
+##
+#  gs201 ResetSystemLib: SMC fast reset, verified on the Pixel 7 ABL context.
+#
+#  PSCI SYSTEM_RESET silently no-ops when the Android bootloader hands the
+#  core over (HW, observed across dozens of runs). SMC 0x82000504 resets
+#  deterministically and instantly (HW). The cluster watchdog recipe from the
+#  same campaign (unlock 0xc0ffee at base+0x04 of 0x200c4000/0x200c5000, then
+#  WTCON=0, WTMINCNT=0x100, WTCNT=0x80, WTCON=0x102021) is a documented
+#  fallback only: it needs MMIO mappings the reset path cannot assume.
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = Gs201ResetSystemLib
+  FILE_GUID                      = 9aa98b88-cd46-49a6-ba01-8f67465a1a1a
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = ResetSystemLib
+
+[Sources]
+  ResetSystem.c
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  ArmMonitorLib
+  BaseLib
+  BaseMemoryLib
+  DebugLib

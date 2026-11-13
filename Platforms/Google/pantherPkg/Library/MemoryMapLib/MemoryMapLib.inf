@@ -1,0 +1,28 @@
+##
+#  panther (Pixel 7, gs201) memory map for Mu's PrePi/ArmPlatform.
+#
+#  Every DDR region carries an evidence tag from
+#  UniXNU-panther/docs/GS201-BOOT-DEVIATIONS.md section 6 and
+#  UniXNU-panther/dts/panther.dts: DTB = factory tree, HW = silicon-observed.
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = PantherMemoryMapLib
+  FILE_GUID                      = 722f05d3-8dae-41ea-87c2-a9c6bbaebbba
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = MemoryMapLib
+
+[Sources]
+  MemoryMapLib.c
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  Silicon/Silicium/SiliciumPkg/SiliciumPkg.dec
+
+[LibraryClasses]
+  DebugLib

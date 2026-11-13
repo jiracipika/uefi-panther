@@ -1,0 +1,29 @@
+##
+#  panther keypad library - skeleton.
+#
+#  The physical keys (power + volume) run through a Google PMIC ADC path on
+#  gs201, not the Samsung GPIO bank scheme; the mapping is not yet measured.
+#  This stub publishes the protocol and reports no keys so the KeypadDxe
+#  chain builds; keyboard input for the boot menu still works through the
+#  serial text console (EmbeddedPkg SimpleTextInOutSerial).
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = PantherKeypadDeviceLib
+  FILE_GUID                      = ef25f3ae-5f5e-4a80-8b3b-fc079b52fb41
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = KeypadDeviceLib
+
+[Sources]
+  KeypadDeviceLib.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  Silicon/Silicium/SiliciumPkg/SiliciumPkg.dec
+
+[LibraryClasses]
+  DebugLib

@@ -1,0 +1,43 @@
+#
+# panther (Google Pixel 7, gs201) boot shim and UEFI FD configuration.
+#
+# The ABL consumes a PE32+ vehicle, not the generic ARM64-header boot image;
+# uefi_fd below is the DRAM window the boot shim copies this FD into before
+# Mu SEC runs there. Evidence and constraints: UniXNU-panther/docs/
+# GS201-BOOT-DEVIATIONS.md (section 1: PE32+ entry, x0=x1=0, MMU on; section
+# 3: no initrd/FDT handoff).
+#
+# Boot Shim Configs
+#
+[boot_shim]
+requires_kernel_header = false
+
+#
+# UEFI FD Configs
+# 0x90000000, 4 MiB, inside the first DDR bank and above the ABL's kernel
+# field. TBD against the ABL's live windows at first light.
+#
+[uefi_fd]
+base = 0x90000000
+size = 0x400000
+
+#
+# Android Boot Image Kernel Configs
+# The kernel field of this board's boot image is a PE32+ vehicle; compression
+# stays "none" here because the packer lz4-legacy-compresses the whole vehicle
+# itself (UniXNU-panther firmware preflight).
+#
+[boot_image_kernel]
+kernel_compression = "none"
+append_dtb         = false
+
+#
+# Android Boot Image Configs
+# This board needs the full 64 MiB AVB-partition shape (v4 header, stock
+# vbmeta at the page-aligned offset, AVBf footer) - the generic boot-image
+# packer does not produce it. The DTB is built by the firmware preflight from
+# UniXNU-panther (board.toml [bootimg].dtb, currently commented until the
+# first firmware build).
+#
+[boot_image]
+header_version = 4
